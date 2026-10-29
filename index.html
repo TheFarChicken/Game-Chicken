@@ -3,43 +3,87 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chicken Run</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>GameHub Arcade</title>
+    <meta
+      name="description"
+      content="A huge browser-game portal with hundreds of public game links and a built-in play tab."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="page-shell">
-      <header class="topbar">
-        <div class="brand">Chicken Run</div>
-        <button id="startBtn" class="start-button">Start Game</button>
-      </header>
-
-      <main class="game-wrap">
-        <div class="hud">
-          <div class="stat-box">
-            <span class="label">Score</span>
-            <span id="score">0</span>
-          </div>
-          <div class="stat-box">
-            <span class="label">Lives</span>
-            <span id="lives">3</span>
-          </div>
-          <div class="stat-box timer-box">
-            <span class="label">Time</span>
-            <span id="timer">60</span>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="logo-wrap">
+            <div class="logo-icon">G</div>
+            <div>
+              <div class="logo-label">GameHub</div>
+              <div class="logo-sub">Arcade</div>
+            </div>
           </div>
         </div>
 
-        <div class="canvas-panel">
-          <canvas id="gameCanvas" width="960" height="540" aria-label="Chicken Run game"></canvas>
-          <div id="overlay" class="overlay visible">
-            <h1 id="overlayTitle">Chicken Run</h1>
-            <p id="overlayText">Collect eggs, dodge foxes, and survive the farmyard chaos.</p>
-            <button id="overlayBtn" class="start-button">Play</button>
+        <div class="categories-panel">
+          <h3>Categories</h3>
+          <div id="categoryFilters" class="category-filters"></div>
+        </div>
+
+        <div class="sidebar-footer">
+          <div class="game-count-box">
+            <span class="count-label">Games</span>
+            <strong id="gameCount">0</strong>
           </div>
         </div>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Public browser games</p>
+            <h1>Find a game and play it instantly</h1>
+          </div>
+          <div class="search-box">
+            <input id="searchInput" type="text" placeholder="Search games, genres, tags..." />
+          </div>
+        </header>
+
+        <section class="tabs-bar">
+          <button class="tab-button active" data-tab="library">Game Library</button>
+          <button class="tab-button" data-tab="play">Play Tab</button>
+        </section>
+
+        <section id="libraryTab" class="tab-panel active">
+          <div id="gameGrid" class="game-grid" aria-live="polite"></div>
+        </section>
+
+        <section id="playTab" class="tab-panel play-panel">
+          <div class="play-header">
+            <div>
+              <p class="eyebrow">Now playing</p>
+              <h2 id="playTitle">Choose a game</h2>
+            </div>
+            <div class="play-actions">
+              <button id="openExternalBtn" class="secondary-button">Open in new tab</button>
+              <button id="closePlayBtn" class="secondary-button">Close</button>
+            </div>
+          </div>
+
+          <div class="game-frame-wrap">
+            <iframe id="gameFrame" title="Game player" src="about:blank"></iframe>
+            <div id="fallbackMessage" class="fallback-message hidden">
+              This site blocks embeds, so it was opened in a new tab instead.
+            </div>
+          </div>
+        </section>
       </main>
     </div>
 
-    <script src="game.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
