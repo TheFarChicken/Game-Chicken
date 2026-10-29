@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chicken Run</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand">Chicken Run</div>
+        <button id="startBtn" class="start-button">Start Game</button>
+      </header>
+
+      <main class="game-wrap">
+        <div class="hud">
+          <div class="stat-box">
+            <span class="label">Score</span>
+            <span id="score">0</span>
+          </div>
+          <div class="stat-box">
+            <span class="label">Lives</span>
+            <span id="lives">3</span>
+          </div>
+          <div class="stat-box timer-box">
+            <span class="label">Time</span>
+            <span id="timer">60</span>
+          </div>
+        </div>
+
+        <div class="canvas-panel">
+          <canvas id="gameCanvas" width="960" height="540" aria-label="Chicken Run game"></canvas>
+          <div id="overlay" class="overlay visible">
+            <h1 id="overlayTitle">Chicken Run</h1>
+            <p id="overlayText">Collect eggs, dodge foxes, and survive the farmyard chaos.</p>
+            <button id="overlayBtn" class="start-button">Play</button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="game.js"></script>
+  </body>
+</html>
