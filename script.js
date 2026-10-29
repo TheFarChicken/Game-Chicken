@@ -166,6 +166,7 @@ const categories = ['All', ...new Set(games.map((game) => game.category))];
 const state = {
   selectedCategory: 'All',
   query: '',
+  lastGameUrl: ''
 };
 
 const searchInput = document.getElementById('searchInput');
@@ -177,6 +178,26 @@ const gameFrame = document.getElementById('gameFrame');
 const fallbackMessage = document.getElementById('fallbackMessage');
 const openExternalBtn = document.getElementById('openExternalBtn');
 const closePlayBtn = document.getElementById('closePlayBtn');
+
+function openGameInNewTab(game) {
+  state.lastGameUrl = game.url;
+  playTitle.textContent = `${game.title} — opening...`;
+  const newWindow = window.open(game.url, '_blank', 'noopener,noreferrer');
+
+  if (!newWindow) {
+    fallbackMessage.textContent = 'Popup blocked. Please allow pop-ups or use the Open in new tab button.';
+    fallbackMessage.classList.remove('hidden');
+    return;
+  }
+
+  fallbackMessage.textContent = `Opening ${game.title} in a new tab...`;
+  fallbackMessage.classList.remove('hidden');
+  gameFrame.src = 'about:blank';
+
+  setTimeout(() => {
+    fallbackMessage.classList.add('hidden');
+  }, 1600);
+}
 
 function buildCategoryFilters() {
   categoryFilters.innerHTML = '';
@@ -241,26 +262,11 @@ function renderGames() {
     `;
 
     const openGame = () => {
-      playTitle.textContent = game.title;
-      gameFrame.src = game.url;
-      fallbackMessage.classList.add('hidden');
-      openExternalBtn.onclick = () => window.open(game.url, '_blank', 'noopener');
-
+      openGameInNewTab(game);
       const tabButtons = document.querySelectorAll('.tab-button');
       tabButtons.forEach((btn) => btn.classList.toggle('active', btn.dataset.tab === 'play'));
       document.getElementById('libraryTab').classList.remove('active');
       document.getElementById('playTab').classList.add('active');
-
-      setTimeout(() => {
-        try {
-          const iframeDoc = gameFrame.contentDocument || gameFrame.contentWindow.document;
-          if (!iframeDoc || iframeDoc.body.innerHTML === '' || iframeDoc.URL === 'about:blank') {
-            fallbackMessage.classList.remove('hidden');
-          }
-        } catch (error) {
-          fallbackMessage.classList.remove('hidden');
-        }
-      }, 1200);
     };
 
     card.addEventListener('click', openGame);
@@ -291,6 +297,12 @@ tabButtons.forEach((button) => {
     libraryTab.classList.toggle('active', target === 'library');
     playTab.classList.toggle('active', target === 'play');
   });
+});
+
+openExternalBtn.addEventListener('click', () => {
+  if (state.lastGameUrl) {
+    window.open(state.lastGameUrl, '_blank', 'noopener,noreferrer');
+  }
 });
 
 closePlayBtn.addEventListener('click', () => {
